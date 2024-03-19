@@ -5,6 +5,8 @@
 #include <Windows.h>
 #include <GLFW/glfw3.h>
 
+
+
 int main()
 {
     GLFWwindow* window;
@@ -14,7 +16,7 @@ int main()
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(1920, 1080, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(1920, 1080, "AMT Slayer", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
