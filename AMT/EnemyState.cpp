@@ -1,0 +1,4 @@
+enum EnemyState {
+	IDLE,
+	WAKEUP
+};
