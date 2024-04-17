@@ -71,16 +71,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\olafs\AMTslayyerr\AMT\Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\olafs\AMTslayyerr\AMT\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\olafs\AMTslayyerr\AMT\Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\olafs\AMTslayyerr\AMT\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\include;$(IncludePath)</IncludePath>
@@ -178,6 +178,7 @@
     <Image Include="..\..\..\Downloads\floor.png" />
     <Image Include="..\..\..\Downloads\floor_tex.png" />
     <Image Include="..\..\..\Downloads\floor_tex.tga" />
+    <Image Include="..\..\Downloads\amt-dangerous-ant.png" />
     <Image Include="AntGrunt.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

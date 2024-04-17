@@ -105,5 +105,8 @@
     <Image Include="AntGrunt.png">
       <Filter>Pliki zasobów\Textures</Filter>
     </Image>
+    <Image Include="..\..\Downloads\amt-dangerous-ant.png">
+      <Filter>Pliki zasobów\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

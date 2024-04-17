@@ -53,7 +53,7 @@ GLuint indices[] =
 };
 
 AntGrunt grunt1({ 10.0f,0.0f,10.0f });
-AntGrunt grunt2({ 20.0f, 0.0f, 10.0f });
+AntGrunt grunt2({ 20.0f,0.0f,10.0f });
 int main()
 {
 	// Initialize GLFW
@@ -90,6 +90,7 @@ int main()
 	Shader shaderProgram("default.vert", "default.frag");
 
 	std::thread AntGrunt1Thread(std::bind(&AntGrunt::AntGruntLoop, &grunt1));
+	std::thread AntGrunt2Thread(std::bind(&AntGrunt::AntGruntLoop, &grunt2));
 	
 
 	// Generates Vertex Array Object and binds it
@@ -122,6 +123,17 @@ int main()
 	VBO2.Unbind();
 	EBO2.Unbind();
 
+	VAO VAO3;
+	VAO3.Bind();
+	VBO VBO3(grunt2.coordinates, sizeof(grunt2.coordinates));
+	EBO EBO3(grunt2._indices, sizeof(grunt2._indices));
+	VAO3.LinkAttrib(VBO3, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
+	VAO3.LinkAttrib(VBO3, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	VAO3.LinkAttrib(VBO3, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	VAO3.Unbind();
+	VBO3.Unbind();
+	EBO3.Unbind();
+
 
 	/*
 	* I'm doing this relative path thing in order to centralize all the resources into one folder and not
@@ -130,6 +142,8 @@ int main()
 	* Also note that this requires C++17, so go to Project Properties, C/C++, Language, and select C++17
 	*/
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Texture
 	
@@ -138,8 +152,11 @@ int main()
 	Texture brickTex("floor_tex.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 	brickTex.texUnit(shaderProgram, "tex0", 0);
 
-	Texture AntGruntTex("ant.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+	Texture AntGruntTex("amt-dangerous-ant.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	AntGruntTex.texUnit(shaderProgram, "tex1", 0);
+
+	Texture AntGruntTex2("mruwa-czerwona.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	AntGruntTex.texUnit(shaderProgram, "tex2", 0);
 
 
 
@@ -173,6 +190,7 @@ int main()
 		
 		VAO1.Unbind();
 		brickTex.Unbind();
+
 		AntGruntTex.Bind();
 		VBO2.Bind();
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(grunt1.coordinates), grunt1.coordinates);
@@ -182,6 +200,16 @@ int main()
 		glDrawElements(GL_TRIANGLES, sizeof(grunt1._indices) / sizeof(int), GL_UNSIGNED_INT, 0);
 		VAO2.Unbind();
 		AntGruntTex.Unbind();
+
+		AntGruntTex2.Bind();
+		VBO3.Bind();
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(grunt2.coordinates), grunt2.coordinates);
+		VBO3.Unbind();
+
+		VAO3.Bind();
+		glDrawElements(GL_TRIANGLES, sizeof(grunt2._indices) / sizeof(int), GL_UNSIGNED_INT, 0);
+		VAO3.Unbind();
+		AntGruntTex2.Unbind();
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
