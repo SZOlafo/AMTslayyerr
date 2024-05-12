@@ -1,2 +1,12 @@
-﻿  main.cpp
-  AMT.vcxproj -> C:\Users\olafs\AMTslayyerr\AMT\x64\Debug\AMT.exe
+﻿  AntGrunt.cpp
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,60): warning C4305: "argument": obcięcie z "double" do "_Ty"
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,60): warning C4305:         with
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,60): warning C4305:         [
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,60): warning C4305:             _Ty=float
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,60): warning C4305:         ]
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,52): warning C4305: "argument": obcięcie z "double" do "_Ty"
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,52): warning C4305:         with
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,52): warning C4305:         [
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,52): warning C4305:             _Ty=float
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(72,52): warning C4305:         ]
+  AMT.vcxproj -> C:\Users\karol\AMTslayyerr\AMT\x64\Debug\AMT.exe

@@ -1,21 +1,24 @@
 #include"AntGrunt.h"
+#include"CustomMutex.h"
 #include<random>
 #include<glad/glad.h>
 #include <thread>
-AntGrunt::AntGrunt(glm::vec3 position) {
-	AntGrunt::_hp = 60;
-	AntGrunt::_meleeDmg = 20;
-	AntGrunt::_attackTimer = 15;
-	AntGrunt::_height = 25.0f;
-	AntGrunt::_width = 20.0f;
-	AntGrunt::_Enemy_state = IDLE;
-	AntGrunt::_position = position;
-    AntGrunt::_indices[0] = 0;
-    AntGrunt::_indices[1] = 1;
-    AntGrunt::_indices[2] = 2;
-    AntGrunt::_indices[3] = 0;
-    AntGrunt::_indices[4] = 2;
-    AntGrunt::_indices[5] = 3;
+#include "glm/vec3.hpp"
+AntGrunt::AntGrunt(glm::vec3 position, CustomMutex& mtx, std::vector<AntGrunt>& enemies)
+    : _position(position), _mtx(mtx), _enemies(enemies) { 
+    _hp = 60;
+    _meleeDmg = 20;
+    _attackTimer = 15;
+    _height = 25.0f;
+    _width = 20.0f;
+    _Enemy_state = IDLE;
+    _indices[0] = 0;
+    _indices[1] = 1;
+    _indices[2] = 2;
+    _indices[3] = 0;
+    _indices[4] = 2;
+    _indices[5] = 3;
+    directionTimer = -1;
 }
 
 //aktualizacjia wspó³rzêdnym potrzebnych do rysowania przeciwnika
@@ -63,37 +66,59 @@ void AntGrunt::updateCoord() {
     coordinates[31] = 1.0f; // Wspó³rzêdna tekstury Y
 }
 
-void AntGrunt::Idle() {
-	std::random_device rd; // Seed with a real random value, if available
-	std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-	std::uniform_real_distribution<float> distrib(-0.01, 0.01);
+void AntGrunt::ChooseDirection() {
+    std::random_device rd; // Seed with a real random value, if available
+    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+    std::uniform_real_distribution<float> distrib(-0.0003, 0.0003);
 
-	float dx, dz;
-	dx = distrib(gen);
-	dz = distrib(gen);
+    
+    dx = distrib(gen);
+    dz = distrib(gen);
+}
+
+bool AntGrunt::collisionCheck() {
+    for (const auto& enemy : _enemies) {
+        
+        if (std::abs(_position[0] - enemy._position[0]) < (_width / 2 + enemy._width / 2) &&
+            std::abs(_position[2] - enemy._position[2]) < (_height / 2 + enemy._height / 2)) {
+            return true;  // Kolizja wykryta
+        }
+    }
+    return false;  // Brak kolizji
+}
+void AntGrunt::Idle() {
+    AntGrunt::_mtx.lock();
+	
 
     if (AntGrunt::_position[0] > 99 || AntGrunt::_position[0] < -99) {
-        dz = -dz;
+        dx = -dx;
     }
     AntGrunt::_position[0] += dx;
     if (AntGrunt::_position[2] > 99 || AntGrunt::_position[2] < -99) {
         dz = -dz;
     }
-    for (int i = 0; i < 1000; i++) {
-       
-         
+    bool check = collisionCheck();
+    if (check == false) {
         AntGrunt::_position[0] += dx;
         AntGrunt::_position[2] += dz;
-        updateCoord();
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    else directionTimer = -1;
+    directionTimer--;
+    AntGrunt::_mtx.unlock();
+    std::this_thread::sleep_for(std::chrono::nanoseconds(300));
 
 }
 
 void AntGrunt::AntGruntLoop() {
     while (_hp > 0) {
-        if(AntGrunt::_Enemy_state == IDLE)
-        Idle();
+        if (AntGrunt::_Enemy_state == IDLE) {
+            if (directionTimer < 0) {
+                ChooseDirection();
+                directionTimer = 100000;
+                std::this_thread::sleep_for(std::chrono::milliseconds(400));
+            }
+            Idle();
+        }
         updateCoord();
         
     }

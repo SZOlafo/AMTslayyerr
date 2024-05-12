@@ -72,19 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Users\olafs\AMTslayyerr\AMT\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\olafs\AMTslayyerr\AMT\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\karol\AMTslayyerr\AMT\Libraries\lib;C:\Users\olafs\AMTslayyerr\AMT\Libraries\lib;$(LibraryPath);C:\Users\karol\AMTslayyerr\AMT\Libraries\lib</LibraryPath>
+    <ExternalIncludePath>C:\Users\karol\AMTslayyerr\AMT\Libraries\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\karol\AMTslayyerr\AMT\Libraries\lib;C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\lib;$(LibraryPath);C:\Users\karol\AMTslayyerr\AMT\Libraries\lib</LibraryPath>
+    <ExternalIncludePath>C:\Users\karol\AMTslayyerr\AMT\Libraries\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\Users\olafs\AMTslayyerr\AMT\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\olafs\AMTslayyerr\AMT\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\karol\AMTslayyerr\AMT\Libraries\lib;C:\Users\olafs\AMTslayyerr\AMT\Libraries\lib;$(LibraryPath);C:\Users\karol\AMTslayyerr\AMT\Libraries\lib</LibraryPath>
+    <ExternalIncludePath>C:\Users\karol\AMTslayyerr\AMT\Libraries\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\karol\AMTslayyerr\AMT\Libraries\lib;C:\Users\karol\Desktop\Nowy folder %286%29\AMT\Libraries\lib;$(LibraryPath);C:\Users\karol\AMTslayyerr\AMT\Libraries\lib</LibraryPath>
+    <ExternalIncludePath>C:\Users\karol\AMTslayyerr\AMT\Libraries\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -168,6 +172,8 @@
     <ClInclude Include="AntGrunt.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="EBO.h" />
+    <ClInclude Include="CustomMutex.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="shaderClass.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VAO.h" />

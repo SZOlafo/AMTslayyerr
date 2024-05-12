@@ -9,6 +9,7 @@
 #include<glm/gtc/type_ptr.hpp>
 #include<thread>
 #include<functional>
+#include<vector>
 
 #include"Texture.h"
 #include"shaderClass.h"
@@ -20,9 +21,10 @@
 
 
 
+
 const unsigned int width = 1920;
 const unsigned int height = 1080;
-
+std::vector<AntGrunt> enemies;
 
 
 // Vertices coordinates
@@ -51,11 +53,14 @@ GLuint indices[] =
 	2, 3, 4,
 	3, 0, 4*/
 };
+CustomMutex AntIDLEmtx;
+AntGrunt grunt1({ 10.0f,0.0f,10.0f}, AntIDLEmtx, enemies);
+AntGrunt grunt2({ 50.0f,0.0f,10.0f}, AntIDLEmtx,enemies);
 
-AntGrunt grunt1({ 10.0f,0.0f,10.0f });
-AntGrunt grunt2({ 20.0f,0.0f,10.0f });
 int main()
 {
+	enemies.push_back(grunt1);
+	enemies.push_back(grunt2);
 	// Initialize GLFW
 	glfwInit();
 
