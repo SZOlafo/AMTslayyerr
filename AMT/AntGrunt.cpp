@@ -5,8 +5,8 @@
 #include <thread>
 #include "glm/vec3.hpp"
 #include <GLFW/glfw3.h>
-AntGrunt::AntGrunt(glm::vec3 position, CustomMutex& mtx, std::vector<AntGrunt>& enemies)
-    : _position(position), _mtx(mtx), _enemies(enemies) { 
+AntGrunt::AntGrunt(glm::vec3 position, CustomMutex& mtx, std::vector<AntGrunt>& enemies, int* globalAntId, glm::vec3& playerPos)
+    : _position(position), _mtx(mtx), _enemies(enemies), _globalAntID(globalAntId), _playerPos(playerPos) { 
     _hp = 60;
     _meleeDmg = 20;
     _attackTimer = 15;
@@ -20,6 +20,8 @@ AntGrunt::AntGrunt(glm::vec3 position, CustomMutex& mtx, std::vector<AntGrunt>& 
     _indices[4] = 2;
     _indices[5] = 3;
     directionTimer = -1;
+    id = (*globalAntId);
+    (*globalAntId)++;
 }
 
 //aktualizacjia wspó³rzêdnym potrzebnych do rysowania przeciwnika
@@ -79,16 +81,26 @@ void AntGrunt::ChooseDirection() {
 
 bool AntGrunt::collisionCheck() {
     for (const auto& enemy : _enemies) {
-        
-        /*if (std::abs(_position[0] - enemy._position[0]) < (_width / 2 + enemy._width / 2) &&
-            std::abs(_position[2] - enemy._position[2]) < (_height / 2 + enemy._height / 2)) {
-            return true;  // Kolizja wykryta
-        }*/
-        if ((_position[0] - _width / 2 > enemy._position[0] - enemy._width / 2) && (_position[0] + _width / 2 < enemy._position[0] + enemy._width / 2)
-            /* && _position[2] == enemy._position[2]) */){
-            return true; // kolizja wykryta
+        if (enemy._globalAntID != _globalAntID) {
+            //std::cout << enemy._position[0] << std::endl;
+            float x1 = enemy._position[0] - enemy._width / 2;
+            float x2 = enemy._position[0] + enemy._width / 2;
+            float z1 = enemy._position[2] - enemy._width / 2;
+            float z2 = enemy._position[2] + enemy._width / 2;
+            if ((_position[0] > x1 && _position[0] < x2) && (_position[2] > z1 && _position[2] < z2)) {
+                return true;
+            }
         }
     }
+    //std::cout << enemy._position[0] << std::endl;
+    float x1 = _playerPos[0] - 10;
+    float x2 = _playerPos[2] + 10;
+    float z1 = _playerPos[0] - 10;
+    float z2 = _playerPos[2] + 10;
+    if ((_position[0] > x1 && _position[0] < x2) && (_position[2] > z1 && _position[2] < z2)) {
+        return true;
+    }
+
     return false;  // Brak kolizji
 }
 void AntGrunt::Idle() {
@@ -106,6 +118,8 @@ void AntGrunt::Idle() {
     if (check == false) {
         AntGrunt::_position[0] += dx;
         AntGrunt::_position[2] += dz;
+        _enemies[id]._position = _position;
+        //std::cout << _enemies[*_globalAntID]._position[0] << std::endl;
     }
     else directionTimer = -1;
     directionTimer--;
@@ -115,7 +129,7 @@ void AntGrunt::Idle() {
 }
 
 void AntGrunt::AntGruntLoop() {
-    //obliczenie ile ma trwaæ klatka aby osi¹gn¹æ max 60fps
+    //calculate how long should one frame take 
     const int targetFPS = 60;
     const double frameDuration = 1.0 / targetFPS;
     ///////////////////////
@@ -132,7 +146,7 @@ void AntGrunt::AntGruntLoop() {
         }
         updateCoord();
 
-        //ograniczenie do max 60fps
+        //max 60fps
         double frameTime = glfwGetTime() - startTime;
         if (frameTime < frameDuration) {
             std::this_thread::sleep_for(std::chrono::milliseconds((int)((frameDuration - frameTime) * 1000)));

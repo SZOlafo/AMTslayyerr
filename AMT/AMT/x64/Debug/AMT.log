@@ -1,19 +1,16 @@
 ﻿  AntGrunt.cpp
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,58): warning C4305: "argument": obcięcie z "double" do "_Ty"
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,58): warning C4305:         with
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,58): warning C4305:         [
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,58): warning C4305:             _Ty=float
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,58): warning C4305:         ]
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,52): warning C4305: "argument": obcięcie z "double" do "_Ty"
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,52): warning C4305:         with
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,52): warning C4305:         [
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,52): warning C4305:             _Ty=float
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(73,52): warning C4305:         ]
-  EnemyState.cpp
-  main.cpp
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305: "argument": obcięcie z "double" do "_Ty"
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305:         with
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305:         [
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305:             _Ty=float
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305:         ]
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305: "argument": obcięcie z "double" do "_Ty"
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305:         with
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305:         [
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305:             _Ty=float
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305:         ]
+  Camera.cpp
   Player.cpp
-  shaderClass.cpp
-  VBO.cpp
+  main.cpp
   Generowanie kodu...
-  glad.c
   AMT.vcxproj -> C:\Users\karol\AMTslayyerr\AMT\x64\Debug\AMT.exe

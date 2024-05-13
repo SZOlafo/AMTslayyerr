@@ -18,6 +18,7 @@
 #include"EBO.h"
 #include"Camera.h"
 #include"AntGrunt.h"
+#include "Player.h"
 
 
 
@@ -27,7 +28,9 @@
 const unsigned int width = 1920;
 const unsigned int height = 1080;
 std::vector<AntGrunt> enemies;
-
+int AID = 0;
+int* globalAntId = &AID;
+glm::vec3 pos = { 0.0f, 20.0f, 0.0f };
 
 // Vertices coordinates
 GLfloat vertices[] =
@@ -56,13 +59,14 @@ GLuint indices[] =
 	3, 0, 4*/
 };
 CustomMutex AntIDLEmtx;
-AntGrunt grunt1({ 10.0f,0.0f,10.0f}, AntIDLEmtx, enemies);
-AntGrunt grunt2({ 50.0f,0.0f,10.0f}, AntIDLEmtx,enemies);
-
+Player player(pos,AntIDLEmtx,enemies);
+AntGrunt grunt1({ 10.0f,0.0f,10.0f }, AntIDLEmtx, enemies, globalAntId,player._position);
+AntGrunt grunt2({ 50.0f,0.0f,10.0f }, AntIDLEmtx, enemies, globalAntId,player._position);
 
 
 int main()
 {
+	std::cout << *globalAntId << std::endl;
 	enemies.push_back(grunt1);
 	enemies.push_back(grunt2);
 	// Initialize GLFW
@@ -173,7 +177,7 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 
 	// Creates camera object
-	Camera camera(width, height, glm::vec3(0.0f, 50.0f, 0.0f));
+	Camera camera(width, height, pos,player);
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
