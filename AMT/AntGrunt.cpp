@@ -4,6 +4,7 @@
 #include<glad/glad.h>
 #include <thread>
 #include "glm/vec3.hpp"
+#include <GLFW/glfw3.h>
 AntGrunt::AntGrunt(glm::vec3 position, CustomMutex& mtx, std::vector<AntGrunt>& enemies)
     : _position(position), _mtx(mtx), _enemies(enemies) { 
     _hp = 60;
@@ -69,7 +70,7 @@ void AntGrunt::updateCoord() {
 void AntGrunt::ChooseDirection() {
     std::random_device rd; // Seed with a real random value, if available
     std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-    std::uniform_real_distribution<float> distrib(-0.0003, 0.0003);
+    std::uniform_real_distribution<float> distrib(-0.15, 0.15);
 
     
     dx = distrib(gen);
@@ -79,9 +80,13 @@ void AntGrunt::ChooseDirection() {
 bool AntGrunt::collisionCheck() {
     for (const auto& enemy : _enemies) {
         
-        if (std::abs(_position[0] - enemy._position[0]) < (_width / 2 + enemy._width / 2) &&
+        /*if (std::abs(_position[0] - enemy._position[0]) < (_width / 2 + enemy._width / 2) &&
             std::abs(_position[2] - enemy._position[2]) < (_height / 2 + enemy._height / 2)) {
             return true;  // Kolizja wykryta
+        }*/
+        if ((_position[0] - _width / 2 > enemy._position[0] - enemy._width / 2) && (_position[0] + _width / 2 < enemy._position[0] + enemy._width / 2)
+            /* && _position[2] == enemy._position[2]) */){
+            return true; // kolizja wykryta
         }
     }
     return false;  // Brak kolizji
@@ -105,21 +110,32 @@ void AntGrunt::Idle() {
     else directionTimer = -1;
     directionTimer--;
     AntGrunt::_mtx.unlock();
-    std::this_thread::sleep_for(std::chrono::nanoseconds(300));
+    std::this_thread::sleep_for(std::chrono::nanoseconds(100));
 
 }
 
 void AntGrunt::AntGruntLoop() {
+    //obliczenie ile ma trwaæ klatka aby osi¹gn¹æ max 60fps
+    const int targetFPS = 60;
+    const double frameDuration = 1.0 / targetFPS;
+    ///////////////////////
     while (_hp > 0) {
+        double startTime = glfwGetTime();
         if (AntGrunt::_Enemy_state == IDLE) {
             if (directionTimer < 0) {
+                std::cout << directionTimer << std::endl;
                 ChooseDirection();
                 directionTimer = 100000;
-                std::this_thread::sleep_for(std::chrono::milliseconds(400));
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
             Idle();
         }
         updateCoord();
-        
+
+        //ograniczenie do max 60fps
+        double frameTime = glfwGetTime() - startTime;
+        if (frameTime < frameDuration) {
+            std::this_thread::sleep_for(std::chrono::milliseconds((int)((frameDuration - frameTime) * 1000)));
+        }
     }
 }

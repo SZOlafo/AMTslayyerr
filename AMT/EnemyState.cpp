@@ -1,4 +1,5 @@
-enum EnemyState {
+
+/*enum EnemyState {
 	IDLE,
 	WAKEUP
-};
+};*/

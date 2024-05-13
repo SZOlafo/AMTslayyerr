@@ -8,6 +8,10 @@
 class AntGrunt
 {
 private:
+	enum EnemyState {
+		IDLE,
+		WAKEUP
+	};
 	int _hp;
 	int _meleeDmg;
 	int _projectileDmg;
@@ -16,7 +20,9 @@ private:
 	EnemyState _Enemy_state;
 	CustomMutex& _mtx;
 	std::vector<AntGrunt>& _enemies;
+
 public:
+	
 	float _width;
 	float _height;
 	GLfloat coordinates[32];
@@ -24,6 +30,7 @@ public:
 	float dx;
 	float dz;
 	int directionTimer;
+
 	AntGrunt(glm::vec3 position, CustomMutex& mtx, std::vector<AntGrunt>& enemies);
 	void Idle();
 	void Attack();

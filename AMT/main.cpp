@@ -22,6 +22,8 @@
 
 
 
+
+
 const unsigned int width = 1920;
 const unsigned int height = 1080;
 std::vector<AntGrunt> enemies;
@@ -56,6 +58,8 @@ GLuint indices[] =
 CustomMutex AntIDLEmtx;
 AntGrunt grunt1({ 10.0f,0.0f,10.0f}, AntIDLEmtx, enemies);
 AntGrunt grunt2({ 50.0f,0.0f,10.0f}, AntIDLEmtx,enemies);
+
+
 
 int main()
 {
@@ -174,6 +178,7 @@ int main()
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
+		
 		// Specify the color of the background
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		// Clean the back buffer and depth buffer
@@ -192,7 +197,7 @@ int main()
 		VAO1.Bind();
 		// Draw primitives, number of indices, datatype of indices, index of indices
 		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
-		
+
 		VAO1.Unbind();
 		brickTex.Unbind();
 
@@ -219,6 +224,7 @@ int main()
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
 		glfwPollEvents();
+		
 	}
 
 
