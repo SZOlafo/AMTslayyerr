@@ -10,7 +10,6 @@
 #pragma once
 class Player {
 private:
-	int _hp;
 	int _meleeDmg;
 	int _projectileDmg;
 	
@@ -19,6 +18,7 @@ private:
 	
 	
 public:
+	int _hp;
 	glm::vec3 _position;
 	CustomMutex& _mtx;
 	std::vector<AntGrunt>& _enemies;

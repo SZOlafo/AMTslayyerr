@@ -1,16 +1,13 @@
 ﻿  AntGrunt.cpp
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305: "argument": obcięcie z "double" do "_Ty"
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305:         with
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305:         [
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305:             _Ty=float
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,58): warning C4305:         ]
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305: "argument": obcięcie z "double" do "_Ty"
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305:         with
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305:         [
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305:             _Ty=float
-C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(75,52): warning C4305:         ]
-  Camera.cpp
-  Player.cpp
-  main.cpp
-  Generowanie kodu...
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,58): warning C4305: "argument": obcięcie z "double" do "_Ty"
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,58): warning C4305:         with
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,58): warning C4305:         [
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,58): warning C4305:             _Ty=float
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,58): warning C4305:         ]
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,52): warning C4305: "argument": obcięcie z "double" do "_Ty"
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,52): warning C4305:         with
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,52): warning C4305:         [
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,52): warning C4305:             _Ty=float
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(114,52): warning C4305:         ]
+C:\Users\karol\AMTslayyerr\AMT\AntGrunt.cpp(207,172): warning C4390: ";": znaleziono kontrolowaną pustą instrukcję; czy to było zamierzone?
   AMT.vcxproj -> C:\Users\karol\AMTslayyerr\AMT\x64\Debug\AMT.exe

@@ -1,11 +1,17 @@
 #include"Camera.h"
 
 
-Camera::Camera(int width, int height, glm::vec3 position, Player& player)
-	: _player(player) {
+Camera::Camera(int width, int height, glm::vec3 position, Player& player, bool& firing)
+	: _player(player), _firing(firing) {
 	Camera::width = width;
 	Camera::height = height;
 	Position = position;
+	spectator = false;
+	firstFire = true;
+}
+
+glm::mat4 Camera::getProjectionMatrix(float FOVdeg, float nearPlane, float farPlane) {
+	return glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
 }
 
 void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform)
@@ -68,6 +74,7 @@ void Camera::Inputs(GLFWwindow* window)
 		// Handles mouse inputs
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		{
+			_firing = true;
 			// Hides mouse cursor
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
@@ -138,6 +145,17 @@ void Camera::Inputs(GLFWwindow* window)
 			//Position[1] += 10;
 		}
 		//mysz
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+		{
+			if (firstFire)
+			{
+				_firing = true;
+				firstFire = false;
+			}
+		}
+		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
+			firstFire = true;
+		}
 		// Hides mouse cursor
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
@@ -183,9 +201,12 @@ void Camera::Inputs(GLFWwindow* window)
 		
 	}
 	_player._mtx.unlock();
-	
-	
 
+}
+glm::vec3 Camera::getPointCameraIsLookingAt() {
+    return Position + Orientation;
+}
 
-	
+glm::vec3 Camera::getShotDirection() {
+	return glm::normalize(Orientation);
 }

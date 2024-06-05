@@ -25,7 +25,8 @@ public:
 	Player& _player;
 
 	bool spectator = true;
-
+	bool& _firing;
+	bool firstFire;
 	// Prevents the camera from jumping around when first clicking left click
 	bool firstClick = true;
 
@@ -38,11 +39,17 @@ public:
 	float sensitivity = 100.0f;
 
 	// Camera constructor to set up initial values
-	Camera(int width, int height, glm::vec3 position, Player& player);
+	Camera(int width, int height, glm::vec3 position, Player& player, bool& firing);
 
 	// Updates and exports the camera matrix to the Vertex Shader
 	void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform);
 	// Handles camera inputs
 	void Inputs(GLFWwindow* window);
+
+	glm::mat4 getProjectionMatrix(float FOVdeg, float nearPlane, float farPlane);
+
+	glm::vec3 getPointCameraIsLookingAt();
+
+	glm::vec3 getShotDirection();
 };
 #endif
