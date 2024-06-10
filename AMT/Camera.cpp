@@ -1,7 +1,7 @@
 #include"Camera.h"
 
 
-Camera::Camera(int width, int height, glm::vec3 position, Player& player, bool& firing, bool*restart, bool* endGame)
+Camera::Camera(int width, int height, glm::vec3 position, Player& player, bool& firing, bool* restart, bool* endGame)
 	: _player(player), _firing(firing), _restart(restart), _endGame(endGame) {
 	Camera::width = width;
 	Camera::height = height;
@@ -22,16 +22,14 @@ void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shade
 
 	// Makes camera look in the right direction from the right position
 	view = glm::lookAt(Position, Position + Orientation, Up);
-	
+
 	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
 
 	// Exports the camera matrix to the Vertex Shader
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(projection * view));
 }
 
-glm::vec3 Camera::getCameraFacing() {
-	return -glm::normalize(glm::cross(glm::normalize(glm::cross(Orientation, Up)), Up));
-}
+
 
 void Camera::Inputs(GLFWwindow* window)
 {
@@ -79,7 +77,7 @@ void Camera::Inputs(GLFWwindow* window)
 			_firing = true;
 
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-			
+
 			if (firstClick)
 			{
 				glfwSetCursorPos(window, (width / 2), (height / 2));
@@ -98,7 +96,7 @@ void Camera::Inputs(GLFWwindow* window)
 			// Calculates upcoming vertical change in the Orientation
 			glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
 
-			
+
 			if (abs(glm::angle(newOrientation, Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
 			{
 				Orientation = newOrientation;
@@ -196,19 +194,19 @@ void Camera::Inputs(GLFWwindow* window)
 		// Sets mouse cursor to the middle of the screen so that it doesn't end up roaming around
 		glfwSetCursorPos(window, (width / 2), (height / 2));
 		bool collisionDetected = _player.collisionCheck();
-		if (collisionDetected == false && _player._hp>0) {
+		if (collisionDetected == false && _player._hp > 0) {
 			Position = _player._position;
 		}
 		else {
 			_player._position = oldPos;
 		}
-		
+
 	}
 	_player._mtx.unlock();
 
 }
 glm::vec3 Camera::getPointCameraIsLookingAt() {
-    return Position + Orientation;
+	return Position + Orientation;
 }
 
 glm::vec3 Camera::getShotDirection() {
