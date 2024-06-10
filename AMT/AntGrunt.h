@@ -26,6 +26,7 @@ private:
 	
 
 public:
+	bool* _endGame;
 	bool& _shooting;
 	int _hp;
 	glm::vec3& _cameraPos;
@@ -51,19 +52,20 @@ public:
 	float _playerHeight;
 	int* _playerHp;
 
-	AntGrunt(glm::vec3 position, CustomMutex& mtx, std::vector<AntGrunt>& enemies, int* globalAntID, glm::vec3& playerPos, std::vector<Sphere>& antProjectiles, int* globalSID,CustomMutex& antProjectileMtx, float playerWidth, float playerHeight, int* playerHp, std::vector<VAO>& antsVao, std::vector<VBO>& antsVBO, std::vector<EBO>& antsEBO, CustomMutex& spawnMtx, bool& shooting, glm::vec3& cameraPos, glm::vec3& shotPos, std::barrier<>& sync);
-	void Idle();
+	AntGrunt(glm::vec3 position, CustomMutex& mtx, std::vector<AntGrunt>& enemies, int* globalAntID, glm::vec3& playerPos, std::vector<Sphere>& antProjectiles, int* globalSID,CustomMutex& antProjectileMtx, float playerWidth, float playerHeight, int* playerHp, std::vector<VAO>& antsVao, std::vector<VBO>& antsVBO, std::vector<EBO>& antsEBO, CustomMutex& spawnMtx, bool& shooting, glm::vec3& cameraPos, glm::vec3& shotPos, std::barrier<>& sync, bool* endGame);
+	void Idle();// runs when player was not spotted
 	void Attack();
-	void Chase();
+	void Chase();// chases player and deals damage when in proximity
 	void Bite();
-	void updateCoord();
-	void AntGruntLoop();
-	void ChooseDirection();
-	bool collisionCheck();
-	bool shotCollision(const glm::vec3& cameraPos, const glm::vec3& shotPos);
-	void Die();
+	void updateCoord();// updates location of enemy
+	void AntGruntLoop(); // calls needed functions in a loop
+	void ChooseDirection();// chooses direction in which to move when in Idle state
+	bool collisionCheck();// checks collisions wiht player and other enemies
+	bool shotCollision(const glm::vec3& cameraPos, const glm::vec3& shotPos);// checks if enemy was shot and deals damage to hit enemy
+	void Die();// runs when hp<0
 	void shot();
-	void handleShooting();
+	void handleShooting();// thread which checks if enemy was shot
+	void reset();// runs when game is restarted
 };
  
 

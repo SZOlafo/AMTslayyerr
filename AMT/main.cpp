@@ -21,8 +21,6 @@
 #include"AntGrunt.h"
 #include "Player.h"
 #include "Sphere.h"
-#include "Crosshair.h"
-
 
 
 
@@ -46,7 +44,12 @@ int* globalSID = &SID;
 std::vector<Sphere> AntProjectiles;
 glm::vec3 pos = { 0.0f, 20.0f, 0.0f };
 bool firing = false;
-int pistolCounter = -1;
+int pistolCounter = 0;
+int deathTickCounter = 0;
+bool restart = false;
+bool* rPointer = &restart;
+bool endGame = false;
+bool* eGame = &endGame;
 
 //gracz
 Player player(pos, AntIDLEmtx, enemies);
@@ -66,11 +69,7 @@ GLfloat vertices[] =
 	-100.0f, 0.0f, -100.0f,     0.5f, 0.5f, 0.5f,    0.0f, 0.0f, // Lewy dolny
 	 100.0f, 0.0f, -100.0f,     0.5f, 0.5f, 0.5f,    1.0f, 0.0f, // Prawy dolny
 	 100.0f, 0.0f,  100.0f,     0.5f, 0.5f, 0.5f,    1.0f, 1.0f  // Prawy górny
-	 /*-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
-	 -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
-	  0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
-	  0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
-	  0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	2.5f, 5.0f*/
+	
 };
 
 // Indices for vertices order
@@ -78,12 +77,7 @@ GLuint indices[] =
 {
 	0, 1, 2, // Pierwszy trójk¹t
 	0, 2, 3  // Drugi trójk¹t
-	/*0, 1, 2,
-	0, 2, 3,
-	0, 1, 4,
-	1, 2, 4,
-	2, 3, 4,
-	3, 0, 4*/
+	
 };
 
 // HP display
@@ -114,18 +108,19 @@ GLfloat pistolVerticesF1[] =
 {
 	// Positions        // Texture Coords
 	0.40f, -0.10f, 0.0f,  0.75f, 1.0f,//0.25f, 1.0f, // Top Right
-	0.40f, -0.60f, 0.0f,  0.75f, 0.5f,//0.25f, 0.5f, // Bottom Right
-	0.00f, -0.60f, 0.0f, 0.5f, 0.5f,//0.0f, 0.5f, // Bottom Left
-	0.00f, -0.10f, 0.0f, 0.5f, 1.0f//0.05f, 1.0f  // Top Left 
+	0.40f, -0.60f, 0.0f,  0.75f, 0.53f,//0.25f, 0.5f, // Bottom Right
+	0.00f, -0.60f, 0.0f, 0.53f, 0.53f,//0.0f, 0.5f, // Bottom Left
+	0.00f, -0.10f, 0.0f, 0.53f, 1.0f//0.05f, 1.0f  // Top Left 
 };
 GLfloat pistolVerticesF2[] =
 {
 	// Positions        // Texture Coords
-	0.40f, -0.10f, 0.0f,  1.0f, 1.0f,//0.25f, 1.0f, // Top Right
-	0.40f, -0.60f, 0.0f,  1.0f, 0.5f,//0.25f, 0.5f, // Bottom Right
-	0.00f, -0.60f, 0.0f, 0.75f, 0.5f,//0.0f, 0.5f, // Bottom Left
-	0.00f, -0.10f, 0.0f, 0.75f, 1.0f//0.05f, 1.0f  // Top Left 
+	0.45f, -0.10f, 0.0f,  1.0f, 1.0f,//0.25f, 1.0f, // Top Right
+	0.45f, -0.60f, 0.0f,  1.0f, 0.5f,//0.25f, 0.5f, // Bottom Right
+	0.05f, -0.60f, 0.0f, 0.75f, 0.5f,//0.0f, 0.5f, // Bottom Left
+	0.05f, -0.10f, 0.0f, 0.75f, 1.0f//0.05f, 1.0f  // Top Left 
 };
+
 GLfloat crossHairVertices[] =
 {
 	// Positions        // Texture Coords
@@ -141,12 +136,39 @@ GLuint pistolIndices[] =
 	1, 2, 3  // Second Triangle
 };
 
+GLfloat pyramidVertices[] =
+{
+	
+	 -15.0f, 0.0f,  -50.0f,  1.0f, 0.0f, 0.0f,  0.45f, 0.45f, // Base - Bottom Left
+	 -15.0f, 0.0f, -80.0f,  0.0f, 1.0f, 0.0f,  0.45f, 0.55f, // Base - Top Left
+	  15.0f, 0.0f, -80.0f,  0.0f, 0.0f, 1.0f,  0.55f, 0.55f, // Base - Top Right
+	  15.0f, 0.0f,  -50.0f,  1.0f, 1.0f, 0.0f,  0.45f, 0.55f, // Base - Bottom Right
+	  0.0f, 10.0f,  -65.0f,  1.0f, 1.0f, 1.0f,  0.5f, 0.5f  // Apex
+};
+
+GLuint pyramidIndices[] =
+{
+	0, 1, 4, // Front Left Face
+	1, 2, 4, // Back Left Face
+	2, 3, 4, // Back Right Face
+	3, 0, 4, // Front Right Face
+	0, 1, 2, // Base Triangle 1
+	0, 2, 3  // Base Triangle 2
+};
+GLfloat deathScreenVertices[] =
+{
+	// Positions        // Texture Coords
+	1.0f, 1.0f, 0.0f,  1.0f, 1.0f,//0.25f, 1.0f, // Top Right
+	1.0f, -1.0f, 0.0f,  1.0f, 0.0f,//0.25f, 0.5f, // Bottom Right
+	-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,//0.0f, 0.5f, // Bottom Left
+	-1.0f, 1.0f, 0.0f, 0.0f, 1.0f//0.05f, 1.0f  // Top Left 
+};
 
 
-AntGrunt grunt1({ -99.0f,0.0f,99.0f }, AntIDLEmtx, enemies, globalAntId, player._position, AntProjectiles, globalSID, projectileMtx, playerWidth, playerHegiht, playerHp, antsVAO, antsVBO, antsEbo, spawnMtx,firing, cameraPos, shotPos, sync);
-AntGrunt grunt2({ 99.0f,0.0f,99.0f }, AntIDLEmtx, enemies, globalAntId, player._position, AntProjectiles, globalSID, projectileMtx, playerWidth, playerHegiht, playerHp, antsVAO, antsVBO, antsEbo, spawnMtx,firing, cameraPos, shotPos, sync);
-AntGrunt grunt3({ 99.0f,0.0f,-99.0f }, AntIDLEmtx, enemies, globalAntId, player._position, AntProjectiles, globalSID, projectileMtx, playerWidth, playerHegiht, playerHp, antsVAO, antsVBO, antsEbo, spawnMtx,firing, cameraPos, shotPos, sync);
-AntGrunt grunt4({ -99.0f,0.0f,-99.0f }, AntIDLEmtx, enemies, globalAntId, player._position, AntProjectiles, globalSID, projectileMtx, playerWidth, playerHegiht, playerHp, antsVAO, antsVBO, antsEbo, spawnMtx,firing, cameraPos, shotPos, sync);
+AntGrunt grunt1({ -20.0f,0.0f,-65.0f }, AntIDLEmtx, enemies, globalAntId, player._position, AntProjectiles, globalSID, projectileMtx, playerWidth, playerHegiht, playerHp, antsVAO, antsVBO, antsEbo, spawnMtx,firing, cameraPos, shotPos, sync, eGame);
+AntGrunt grunt2({ 20.0f,0.0f,-65.0f }, AntIDLEmtx, enemies, globalAntId, player._position, AntProjectiles, globalSID, projectileMtx, playerWidth, playerHegiht, playerHp, antsVAO, antsVBO, antsEbo, spawnMtx,firing, cameraPos, shotPos, sync, eGame);
+AntGrunt grunt3({ 0.0f,0.0f,-45.0f }, AntIDLEmtx, enemies, globalAntId, player._position, AntProjectiles, globalSID, projectileMtx, playerWidth, playerHegiht, playerHp, antsVAO, antsVBO, antsEbo, spawnMtx,firing, cameraPos, shotPos, sync, eGame);
+AntGrunt grunt4({ -0.0f,0.0f,-85.0f }, AntIDLEmtx, enemies, globalAntId, player._position, AntProjectiles, globalSID, projectileMtx, playerWidth, playerHegiht, playerHp, antsVAO, antsVBO, antsEbo, spawnMtx,firing, cameraPos, shotPos, sync, eGame);
 
 int main()
 {
@@ -166,8 +188,21 @@ int main()
 	// So that means we only have the modern functions
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
-	GLFWwindow* window = glfwCreateWindow(width, height, "AMT Slayer", NULL, NULL);
+	GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+	if (!primaryMonitor) {
+		glfwTerminate();
+		return -1;
+	}
+
+	// Get the video mode of the monitor
+	const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
+	if (!mode) {
+		glfwTerminate();
+		return -1;
+	}
+
+
+	GLFWwindow* window = glfwCreateWindow(width, height, "AMT Slayer", primaryMonitor, NULL);
 	// Error check if the window fails to create
 	if (window == NULL)
 	{
@@ -339,8 +374,8 @@ int main()
 	EBO EBOpf2(pistolIndices, sizeof(pistolIndices));
 
 	// Links VBO attributes such as coordinates and colors to VAO
-	VAOpf2.LinkAttrib(VBOpf1, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
-	VAOpf2.LinkAttrib(VBOpf1, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	VAOpf2.LinkAttrib(VBOpf2, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
+	VAOpf2.LinkAttrib(VBOpf2, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	// Unbind all to prevent accidentally modifying them
 	VAOpf2.Unbind();
 	VBOpf2.Unbind();
@@ -363,11 +398,54 @@ int main()
 	VBOc.Unbind();
 	EBOc.Unbind();
 
+	// Create VAO, VBO, and EBO for the pyramid
+	VAO pyramidVAO;
+	VBO pyramidVBO(pyramidVertices, sizeof(pyramidVertices));
+	EBO pyramidEBO(pyramidIndices, sizeof(pyramidIndices));
+
+	pyramidVAO.Bind();
+	pyramidVBO.Bind();
+	pyramidEBO.Bind();
+
+	// Link attributes
+	pyramidVAO.LinkAttrib(pyramidVBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0); // Positions
+	pyramidVAO.LinkAttrib(pyramidVBO, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float))); // Colors
+	pyramidVAO.LinkAttrib(pyramidVBO, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float))); // Texture Coords
+
+	// Unbind to prevent modification
+	pyramidVAO.Unbind();
+	pyramidVBO.Unbind();
+	pyramidEBO.Unbind();
+
+	// Create VAO, VBO, and EBO for the pyramid
+	VAO VAOd;
+	VBO VBOd(deathScreenVertices, sizeof(deathScreenVertices));
+	EBO EBOd(indices, sizeof(indices));
+
+	VAOd.Bind();
+    VBOd.Bind();
+	EBOd.Bind();
+
+	// Link attributes
+	VAOd.LinkAttrib(VBOd, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
+	VAOd.LinkAttrib(VBOd, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+
+	// Unbind to prevent modification
+	VAOd.Unbind();
+	VAOd.Unbind();
+	VAOd.Unbind();
+
 	Texture AntGruntTex("mruwa-czerwona.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	AntGruntTex.texUnit(shaderProgram, "tex1", 0);
 
 	Texture AntGruntTex2("mruwa-czerwona.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	AntGruntTex.texUnit(shaderProgram, "tex2", 0);
+
+	Texture DeathTex("DeathScreen.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	AntGruntTex.texUnit(pistolShader, "tex3", 0);
+
+	Texture MrowiskoTex("mrowisko.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	AntGruntTex.texUnit(pistolShader, "tex3", 0);
 
 	glm::vec3 initialPosition = glm::vec3(10.0f, 20.0f, 10.0f);
 	glm::vec3 positionChange = glm::vec3(0.05f, 0.0f, 0.0f);
@@ -380,7 +458,7 @@ int main()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Creates camera object
-	Camera camera(width, height, pos, player, firing);
+	Camera camera(width, height, pos, player, firing, rPointer,eGame);
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
@@ -454,6 +532,14 @@ int main()
 		VAO5.Unbind();
 		AntGruntTex.Unbind();
 
+		
+		MrowiskoTex.Bind(); 
+		pyramidVAO.Bind();
+		glDrawElements(GL_TRIANGLES, sizeof(pyramidIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+		MrowiskoTex.Unbind();
+		brickTex.Unbind();
+
+
 		glm::mat4 orthoProjection = glm::ortho(-1.0f, 1.0f, -1.0f * height / width, 1.0f * height / width, -1.0f, 1.0f);
 		// Draw the pistol sprite
 		glDisable(GL_DEPTH_TEST); // Disable depth test to ensure pistol is always on top
@@ -463,65 +549,42 @@ int main()
 		if (firing == false) {
 			
 		}
-		else {
+		else if(player._hp>0){
 			
 			shotPos = camera.getShotDirection();
 			shotPos = glm::normalize(shotPos);
 			cameraPos = camera.Position;
 			pistolCounter = 0;
 			firing = !firing;
-			//std::cout << shotPos[0] << " " << shotPos[1] << " " << shotPos[2] << std::endl;
-			/*for (int i = 0; i < enemies.size(); i++) {
-				bool hit = enemies[i].shotCollision(camera.Position, shotPos);
-				if (hit == true) {
-					std::cout << "MELKA" << std::endl;
-					enemies[i].shot();
-					break;
-				}
-			}*/
 		}
-		switch (pistolCounter) {
-		case 0:
-			VAOpf0.Bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			VAOpf0.Unbind();
-			pistolCounter++;
-			break;
-		case 1:
-			VAOpf0.Bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			VAOpf0.Unbind();
-			pistolCounter++;
-			break;
-		case 2:
-			VAOpf0.Bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			VAOpf0.Unbind();
-			pistolCounter++;
-			break;
-		case 3:
-			VAOpf0.Bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			VAOpf0.Unbind();
-			pistolCounter++;
-			break;
-		case 4:
-			VAOpf0.Bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			VAOpf0.Unbind();
-			pistolCounter++;
-			break;
-		case 5:
-			VAOpf0.Bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			VAOpf0.Unbind();
-			pistolCounter++;
-			break;
-		default:
-			VAOp.Bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			VAOp.Unbind();
-			break;
+		if (player._hp > 0) {
+			if (pistolCounter < 6) {
+				VAOpf0.Bind();
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+				VAOpf0.Unbind();
+				pistolCounter++;
+				
+			}
+			else if (pistolCounter < 11) {
+				VAOpf1.Bind();
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+				VAOpf1.Unbind();
+				pistolCounter++;
+				
+			}
+			else if (pistolCounter < 16) {
+				VAOpf2.Bind();
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+				VAOpf2.Unbind();
+				pistolCounter++;
+				
+			}
+			else {
+				VAOp.Bind();
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+				VAOp.Unbind();
+				
+			}
 		}
 		pistolTex.Unbind();
 		crosshairTex.Bind();
@@ -529,9 +592,29 @@ int main()
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		VAOc.Unbind();
 		crosshairTex.Unbind();
+		if (player._hp < 0 && camera.Position[1] > 5) {
+			camera.Position[1] -= 0.5f;
+		}
+		if (camera.Position[1] < 5) {
+			camera.Position[1] = 5;
+		}
+		if (player._hp <= 5 && deathTickCounter<150) {
+			deathTickCounter++;
+		}
+		if (deathTickCounter >= 150) {
+			VAOd.Bind();
+			DeathTex.Bind();
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			VAOd.Unbind();
+			DeathTex.Unbind();
+		}
+		if (player._hp <= 0 && restart == true) {
+			deathTickCounter = 0;
+			player._hp = 100;
+			player._position = { 0.0f,0.0f,0.0f };
+			restart = false;
+		}
 
-		
-		
 		glEnable(GL_DEPTH_TEST); // Re-enable depth test
 
 		
@@ -542,17 +625,21 @@ int main()
 		for (int i = 0; i < AntProjectiles.size(); i++) {
 			//AntProjectiles[i].draw();
 		}
-		//crosshair.render(crosshairShader);
-		// Swap the back buffer with the front buffer
+		
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
 		glfwPollEvents();
 		//sync.arrive_and_wait();
+		if (endGame == true)break;
 	}
 
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	
+	//AntGrunt1Thread.join();
+	//AntGrunt2Thread.join();
+	//AntGrunt3Thread.join();
+	//AntGrunt4Thread.join();
 
-
-	// Delete all the objects we've created
 	VAO1.Delete();
 	VBO1.Delete();
 	EBO1.Delete();

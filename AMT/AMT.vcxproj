@@ -157,16 +157,12 @@
   <ItemGroup>
     <ClCompile Include="AntGrunt.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Crosshair.cpp" />
-    <ClCompile Include="demo.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="hp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="shaderClass.cpp" />
-    <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="stb.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -188,12 +184,10 @@
   <ItemGroup>
     <ClInclude Include="AntGrunt.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Crosshair.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="CustomMutex.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="shaderClass.h" />
-    <ClInclude Include="Spawner.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VAO.h" />
