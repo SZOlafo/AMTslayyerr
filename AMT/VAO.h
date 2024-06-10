@@ -3,7 +3,7 @@
 
 #include<glad/glad.h>
 #include"VBO.h"
-
+#pragma once
 class VAO
 {
 public:

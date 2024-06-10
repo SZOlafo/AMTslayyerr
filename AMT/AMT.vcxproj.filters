@@ -27,9 +27,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="demo.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="shaderClass.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
@@ -60,12 +57,39 @@
     <ClCompile Include="Player.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="default.vert">
       <Filter>Pliki zasobów\Shaders</Filter>
     </None>
     <None Include="default.frag">
+      <Filter>Pliki zasobów\Shaders</Filter>
+    </None>
+    <None Include="sphere.vert">
+      <Filter>Pliki zasobów\Shaders</Filter>
+    </None>
+    <None Include="sphere.frag">
+      <Filter>Pliki zasobów\Shaders</Filter>
+    </None>
+    <None Include="crosshair.vert">
+      <Filter>Pliki zasobów\Shaders</Filter>
+    </None>
+    <None Include="crosshair.frag">
+      <Filter>Pliki zasobów\Shaders</Filter>
+    </None>
+    <None Include="hp_fragment.glsl">
+      <Filter>Pliki zasobów\Shaders</Filter>
+    </None>
+    <None Include="hp_vertex.glsl">
+      <Filter>Pliki zasobów\Shaders</Filter>
+    </None>
+    <None Include="pistol.frag">
+      <Filter>Pliki zasobów\Shaders</Filter>
+    </None>
+    <None Include="pistol.vert">
       <Filter>Pliki zasobów\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -97,6 +121,9 @@
     <ClInclude Include="Player.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Downloads\floor_tex.tga">
@@ -115,6 +142,12 @@
       <Filter>Pliki zasobów\Textures</Filter>
     </Image>
     <Image Include="..\..\Downloads\amt-dangerous-ant.png">
+      <Filter>Pliki zasobów\Textures</Filter>
+    </Image>
+    <Image Include="pistol.png">
+      <Filter>Pliki zasobów\Textures</Filter>
+    </Image>
+    <Image Include="crosshair.png">
       <Filter>Pliki zasobów\Textures</Filter>
     </Image>
   </ItemGroup>

@@ -96,6 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,6 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,6 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,21 +157,29 @@
   <ItemGroup>
     <ClCompile Include="AntGrunt.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="demo.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="shaderClass.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="stb.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="crosshair.frag" />
+    <None Include="crosshair.vert" />
     <None Include="default.frag" />
     <None Include="default.vert" />
+    <None Include="hp_fragment.glsl" />
+    <None Include="hp_vertex.glsl" />
+    <None Include="pistol.frag" />
+    <None Include="pistol.vert" />
+    <None Include="sphere.frag" />
+    <None Include="sphere.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AntGrunt.h" />
@@ -176,6 +188,7 @@
     <ClInclude Include="CustomMutex.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="shaderClass.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
@@ -187,6 +200,8 @@
     <Image Include="..\..\..\Downloads\floor_tex.tga" />
     <Image Include="..\..\Downloads\amt-dangerous-ant.png" />
     <Image Include="AntGrunt.png" />
+    <Image Include="crosshair.png" />
+    <Image Include="pistol.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
