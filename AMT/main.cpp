@@ -460,10 +460,13 @@ int main()
 	// Creates camera object
 	Camera camera(width, height, pos, player, firing, rPointer,eGame);
 
+	//calculate how long should one frame take 
+	const int targetFPS = 90;
+	const double frameDuration = 1.0 / targetFPS;
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
-
+		double startTime = glfwGetTime();
 		// Specify the color of the background
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		// Clean the back buffer and depth buffer
@@ -631,6 +634,10 @@ int main()
 		glfwPollEvents();
 		//sync.arrive_and_wait();
 		if (endGame == true)break;
+		double frameTime = glfwGetTime() - startTime;
+		if (frameTime < frameDuration) {
+			std::this_thread::sleep_for(std::chrono::milliseconds((int)((frameDuration - frameTime) * 1000)));
+		}
 	}
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
