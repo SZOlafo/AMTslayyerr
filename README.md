@@ -13,3 +13,4 @@ Sekcje krytyczne:
 Poruszanie przeciwników-> muteks przy funkcji poruszania się przeciwników i gracza. Tylko 1 encja zmienia swoje położenie w danym momencie, aby możliwe było wykrywanie kolizji.  
 Detekcja strzałów-> flaga zdarzeń która zapewnia że każdy z przeciwników przetwarz logikę sprawdzenia trafienia i zadania obrażeń raz dla każdego strzału  
 Pobieranie inputu od użytkownika realizowane jest przez bibliotekę GLFW  
+![Diagram bez tytułu drawio(1)](https://github.com/SZOlafo/AMTslayyerr/assets/105805460/bbee8ac3-061f-4e36-9622-b6d63fa38754)
